@@ -141,10 +141,10 @@ export const getCourseByUser = CatchAsyncError(
     try {
       const userCourseList = req.user?.courses;
       const courseId = req.params.id;
-
-      const courseExists = userCourseList?.find(
-        (course: any) => course._id.toString() === courseId
-      );
+      
+const courseExists = userCourseList?.find(
+  (course: any) => course.courseId.toString() === courseId
+);
 
       if (!courseExists) {
         return next(
