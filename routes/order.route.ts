@@ -15,8 +15,8 @@ orderRouter.post("/create-mobile-order", isAutheticated, createMobileOrder);
 
 orderRouter.get(
   "/get-orders",
-  isAutheticated,
-  authorizeRoles("admin"),
+  // isAutheticated,
+  // authorizeRoles("admin"),
   getAllOrders
 );
 

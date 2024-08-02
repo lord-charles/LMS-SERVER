@@ -36,8 +36,8 @@ userRouter.put("/update-user-avatar", isAutheticated, updateProfilePicture);
 
 userRouter.get(
   "/get-users",
-  isAutheticated,
-  authorizeRoles("admin"),
+  // isAutheticated,
+  // authorizeRoles("admin"),
   getAllUsers
 );
 

@@ -92,6 +92,7 @@ exports.activateUser = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, 
 exports.loginUser = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, next) => {
     try {
         const { email, password } = req.body;
+        console.log(email, password);
         if (!email || !password) {
             return next(new ErrorHandler_1.default("Please enter email and password", 400));
         }
@@ -128,7 +129,7 @@ exports.logoutUser = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, ne
 // update access token
 exports.updateAccessToken = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, next) => {
     try {
-        const refresh_token = req.cookies.refresh_token;
+        const refresh_token = req.headers["refresh-token"];
         const decoded = jsonwebtoken_1.default.verify(refresh_token, process.env.REFRESH_TOKEN);
         const message = "Could not refresh token";
         if (!decoded) {
@@ -139,15 +140,7 @@ exports.updateAccessToken = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, 
             return next(new ErrorHandler_1.default("Please login for access this resources!", 400));
         }
         const user = JSON.parse(session);
-        const accessToken = jsonwebtoken_1.default.sign({ id: user._id }, process.env.ACCESS_TOKEN, {
-            expiresIn: "5m",
-        });
-        const refreshToken = jsonwebtoken_1.default.sign({ id: user._id }, process.env.REFRESH_TOKEN, {
-            expiresIn: "3d",
-        });
         req.user = user;
-        res.cookie("access_token", accessToken, jwt_1.accessTokenOptions);
-        res.cookie("refresh_token", refreshToken, jwt_1.refreshTokenOptions);
         await redis_1.redis.set(user._id, JSON.stringify(user), "EX", 604800); // 7days
         return next();
     }
@@ -266,6 +259,7 @@ exports.updateProfilePicture = (0, catchAsyncErrors_1.CatchAsyncError)(async (re
         });
     }
     catch (error) {
+        console.log(error);
         return next(new ErrorHandler_1.default(error.message, 400));
     }
 });

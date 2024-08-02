@@ -2,6 +2,7 @@ require("dotenv").config();
 import express, { NextFunction, Request, Response } from "express";
 export const app = express();
 import cors from "cors";
+import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import { ErrorMiddleware } from "./middleware/error";
 import userRouter from "./routes/user.route";
@@ -11,6 +12,8 @@ import notificationRouter from "./routes/notification.route";
 import analyticsRouter from "./routes/analytics.route";
 import layoutRouter from "./routes/layout.route";
 import { rateLimit } from "express-rate-limit";
+
+app.use(morgan("dev"));
 
 // body parser
 app.use(express.json({ limit: "50mb" }));
