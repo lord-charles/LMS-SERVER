@@ -116,7 +116,8 @@ exports.logoutUser = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, ne
         res.cookie("access_token", "", { maxAge: 1 });
         res.cookie("refresh_token", "", { maxAge: 1 });
         const userId = req.user?._id || "";
-        redis_1.redis.del(userId);
+        console.log(req.user);
+        // redis.del(req.user);
         res.status(200).json({
             success: true,
             message: "Logged out successfully",
@@ -152,6 +153,7 @@ exports.updateAccessToken = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, 
 exports.getUserInfo = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, next) => {
     try {
         const userId = req.user?._id;
+        console.log(req.user);
         (0, user_service_1.getUserById)(userId, res);
     }
     catch (error) {
