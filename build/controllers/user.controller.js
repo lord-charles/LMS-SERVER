@@ -9,8 +9,6 @@ const user_model_1 = __importDefault(require("../models/user.model"));
 const ErrorHandler_1 = __importDefault(require("../utils/ErrorHandler"));
 const catchAsyncErrors_1 = require("../middleware/catchAsyncErrors");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const ejs_1 = __importDefault(require("ejs"));
-const path_1 = __importDefault(require("path"));
 const sendMail_1 = __importDefault(require("../utils/sendMail"));
 const jwt_1 = require("../utils/jwt");
 const redis_1 = require("../utils/redis");
@@ -31,7 +29,11 @@ exports.registrationUser = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, r
         const activationToken = (0, exports.createActivationToken)(user);
         const activationCode = activationToken.activationCode;
         const data = { user: { name: user.name }, activationCode };
-        const html = await ejs_1.default.renderFile(path_1.default.join(__dirname, "../mails/activation-mail.ejs"), data);
+        // const html = await ejs.renderFile(
+        //   path.join(__dirname, "../mails/activation-mail.ejs"),
+        //   data
+        // );
+        // console.log("Generated HTML for email:", html);
         try {
             await (0, sendMail_1.default)({
                 email: user.email,

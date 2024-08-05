@@ -11,6 +11,11 @@ import orderRouter from "./routes/order.route";
 import notificationRouter from "./routes/notification.route";
 import analyticsRouter from "./routes/analytics.route";
 import layoutRouter from "./routes/layout.route";
+
+// shaf 
+import shafNewsFeed from "./routes/shaf.news";
+
+
 import { rateLimit } from "express-rate-limit";
 
 app.use(morgan("dev"));
@@ -18,7 +23,7 @@ app.use(morgan("dev"));
 // body parser
 app.use(express.json({ limit: "50mb" }));
 
-// cookie parser
+// cookie parserlayout.route
 app.use(cookieParser());
 
 // cors => cross origin resource sharing
@@ -47,6 +52,8 @@ app.use(
   analyticsRouter,
   layoutRouter
 );
+
+app.use("/lms/api/v2", shafNewsFeed);
 
 // testing api
 app.get("/test", (req: Request, res: Response, next: NextFunction) => {
